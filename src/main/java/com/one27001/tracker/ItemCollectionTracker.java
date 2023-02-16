@@ -21,8 +21,8 @@ public class ItemCollectionTracker implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    Registry.register(Registry.BLOCK, new Identifier("tutorial", "example_block"), CHECKLIST_LECTERN);
-    Registry.register(Registry.ITEM, new Identifier("tutorial", "example_block"),
+    Registry.register(Registry.BLOCK, new Identifier("one27001", "checklist_lectern"), CHECKLIST_LECTERN);
+    Registry.register(Registry.ITEM, new Identifier("one27001", "checklist_lectern"),
         new ChecklistItem(CHECKLIST_LECTERN, new FabricItemSettings()));
 
     log.info("Imported !");
