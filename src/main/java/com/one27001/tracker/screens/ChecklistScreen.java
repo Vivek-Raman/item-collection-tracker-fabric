@@ -2,7 +2,6 @@ package com.one27001.tracker.screens;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -14,11 +13,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ChecklistScreen extends Screen {
-  private static final Identifier BACKGROUND_TEXTURE = new Identifier("minecraft", "textures/block/oak_planks.png");
   private TextFieldWidget searchBox;
   private ButtonWidget backButton;
 
-  protected ChecklistScreen(Text title) {
+  public ChecklistScreen() {
     super(new LiteralText("Item Checklist"));
   }
 
@@ -37,16 +35,14 @@ public class ChecklistScreen extends Screen {
     // Create back button
     backButton = new ButtonWidget(width / 2 - 100, height - 30, 200, 20, new LiteralText("Back"), (button) -> {
       // Close screen and return to game
-      // MinecraftClient.getInstance().openScreen(HandledScreens.EMPTY);
+      MinecraftClient.getInstance().setScreen(null);
     });
     addDrawableChild(backButton);
   }
 
   @Override
   public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-    // Draw background texture
-    MinecraftClient.getInstance().getTextureManager().bindTexture(BACKGROUND_TEXTURE);
-    drawTexture(matrices, 0, 0, width, height, 0, 0, 16, 16);
+    renderBackground(matrices);
 
     // Draw search box and back button
     super.render(matrices, mouseX, mouseY, delta);

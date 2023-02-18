@@ -2,10 +2,12 @@ package com.one27001.tracker.blocks;
 
 import org.apache.logging.log4j.Logger;
 
+import com.one27001.tracker.screens.ChecklistScreen;
 import com.one27001.util.MyLogger;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LecternBlock;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -23,12 +25,13 @@ public class ChecklistBlock extends LecternBlock {
   @Override
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
       BlockHitResult hit) {
-    log.info("{} used!", getTranslationKey());
+    log.debug("onUse called on Checklist Lectern");
     if (!world.isClient()) {
       return super.onUse(state, world, pos, player, hand, hit);
     }
 
-    // TODO: load UI
+    // load UI
+    MinecraftClient.getInstance().setScreen(new ChecklistScreen());
     return super.onUse(state, world, pos, player, hand, hit);
   }
 }
