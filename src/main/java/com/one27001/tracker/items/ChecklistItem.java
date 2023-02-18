@@ -5,9 +5,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.util.Rarity;
 
 public class ChecklistItem extends BlockItem {
-
-
-
   public ChecklistItem(Block block, Settings settings) {
     super(block, settings);
     settings.maxCount(1);

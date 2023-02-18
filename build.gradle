@@ -12,6 +12,7 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
+	mavenCentral()
 }
 
 loom {
@@ -31,14 +32,15 @@ loom {
 
 // Add the generated resources to the main source set
 sourceSets {
-    main {
-        resources {
-            srcDirs += [
-                    'src/main/generated'
-            ]
-        }
+  main {
+    resources {
+      srcDirs += [
+        'src/main/generated'
+      ]
     }
+  }
 }
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -46,6 +48,12 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+  compileOnly 'org.projectlombok:lombok:1.18.26'
+	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+	testCompileOnly 'org.projectlombok:lombok:1.18.26'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
 }
 
 processResources {
