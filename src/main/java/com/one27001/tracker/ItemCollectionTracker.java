@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.one27001.tracker.blocks.ChecklistBlock;
 import com.one27001.tracker.items.ChecklistItem;
+import com.one27001.tracker.service.CatalogService;
 import com.one27001.tracker.service.ChecklistService;
 import com.one27001.util.ClassRegistry;
 import com.one27001.util.MyLogger;
@@ -28,27 +29,18 @@ public class ItemCollectionTracker implements ClientModInitializer {
   public void onInitializeClient() {
     this.registerInternalClasses();
     this.registerChecklistLectern();
-    this.initializeCatalog();
-    this.initializeChecklist();
-
-
-    log.info("Imported !");
+    log.info("item-collection-tracker is initialized on the client!");
   }
 
   private void registerInternalClasses() {
     ClassRegistry.init(log);
-    ClassRegistry.register(new ChecklistService());
+    ClassRegistry.register(new CatalogService(Registry.ITEM));
+    ClassRegistry.register(new ChecklistService(ClassRegistry.supply(CatalogService.class)));
   }
 
   private void registerChecklistLectern() {
     Registry.register(Registry.BLOCK, new Identifier("one27001", "checklist_lectern"), CHECKLIST_LECTERN);
     Registry.register(Registry.ITEM, new Identifier("one27001", "checklist_lectern"),
         new ChecklistItem(CHECKLIST_LECTERN, new FabricItemSettings()));
-  }
-
-  private void initializeCatalog() {
-  }
-
-  private void initializeChecklist() {
   }
 }

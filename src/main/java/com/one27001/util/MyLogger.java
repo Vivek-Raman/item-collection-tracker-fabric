@@ -7,7 +7,7 @@ import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 
 public class MyLogger {
-  private static final String PREFIX = "one27001-tracker";
+  private static final String PREFIX = "one27001-item-collection-tracker";
   private static final Logger logger = LogManager.getLogger("item-collection-tracker", new MyMessageFactory(PREFIX));
 
   public static Logger get() {

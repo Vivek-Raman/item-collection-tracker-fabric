@@ -7,21 +7,24 @@ import org.apache.logging.log4j.Logger;
 
 public class ClassRegistry {
   private static ClassRegistry instance;
-  private Map<Class, Object> classes;
+  private static boolean initialized = false;
+  private Map<String, Registerable> classes;
 
   public static void init(Logger log) {
-    if (Objects.nonNull(instance)) {
+    if (initialized || Objects.nonNull(instance)) {
       log.error("ClassRegistry is already initialized!");
     }
 
     instance = new ClassRegistry();
+    initialized = true;
   }
 
-  public static void register(Object toRegister) {
-    Objects.requireNonNull(ClassRegistry.instance).classes.put(toRegister.getClass(), toRegister);
+  public static void register(Registerable toRegister) {
+    ClassRegistry.instance.classes.put(toRegister.getClass().getName(), toRegister);
+    toRegister.init();
   }
 
-  public static void supply(Class clazz) {
-    Objects.requireNonNull(ClassRegistry.instance).classes.get(clazz);
+  public static <T extends Registerable> T supply(Class<T> clazz) {
+    return (T) ClassRegistry.instance.classes.get(clazz.getName());
   }
 }

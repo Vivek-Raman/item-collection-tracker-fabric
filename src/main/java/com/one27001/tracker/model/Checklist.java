@@ -14,5 +14,5 @@ import lombok.Singular;
 @AllArgsConstructor
 public class Checklist {
   private String checklistID;
-  @Singular private Map<CatalogItem, TrackingInfo> items;
+  @Singular private Map<String, TrackingInfo> items;
 }
