@@ -1,18 +1,24 @@
 package com.one27001.tracker.screens;
 
+import org.apache.logging.log4j.Logger;
+
+import com.one27001.tracker.screens.helper.ChecklistScreenHelper;
+import com.one27001.util.MyLogger;
+
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ChecklistScreen extends Screen {
+  private static final Logger log = MyLogger.get();
+
   private TextFieldWidget searchBox;
   private ButtonWidget backButton;
 
@@ -28,7 +34,6 @@ public class ChecklistScreen extends Screen {
     searchBox = new TextFieldWidget(textRenderer, width / 2 - 100, 20, 200, 20, new LiteralText("Search"));
     searchBox.setChangedListener((searchText) -> {
       // Filter items by search text
-      // ...
     });
     addDrawableChild(searchBox);
 
@@ -47,23 +52,25 @@ public class ChecklistScreen extends Screen {
     // Draw search box and back button
     super.render(matrices, mouseX, mouseY, delta);
 
-    // Draw list of items
-    int x = 10;
-    int y = 50;
-    for (Identifier id : Registry.ITEM.getIds()) {
-      Item item = Registry.ITEM.get(id);
-      if (item == Items.AIR) {
-        continue;
-      }
-      Text itemName = item.getName();
-      int stringWidth = textRenderer.getWidth(itemName);
-      if (x + stringWidth > width - 10) {
-        x = 10;
-        y += 20;
-      }
-      drawTextWithShadow(matrices, textRenderer, itemName, x, y, 0xFFFFFF);
-      x += stringWidth + 5;
-    }
-  }
+    ChecklistScreenHelper.addUI(this);
+    Item anItem = Registry.ITEM.get(0);
+    log.info(anItem.getTranslationKey());
 
+    // Draw list of items
+    // int x = 10;
+    // int y = 50;
+    // for (Identifier id : Registry.ITEM.getIds()) {
+    //   Item item = Registry.ITEM.get(id);
+    //   if (item == Items.AIR) {
+    //     continue;
+    //   }
+    //   Text itemName = item.getName();
+    //   int stringWidth = textRenderer.getWidth(itemName);
+    //   if (x + stringWidth > width - 10) {
+    //     x = 10;
+    //     y += 20;
+    //   }
+    //   drawTextWithShadow(matrices, textRenderer, itemName, x, y, 0xFFFFFF);
+    //   x += stringWidth + 5;
+  }
 }
