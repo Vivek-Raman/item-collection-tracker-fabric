@@ -1,5 +1,6 @@
 package com.one27001.tracker.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.Singular;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Checklist {
+public class Checklist implements Serializable {
   private String checklistID;
-  @Singular private Map<String, TrackingInfo> items;
+  @Singular private Map<String, TrackingInfo> stats;
 }

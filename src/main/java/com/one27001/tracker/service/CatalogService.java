@@ -30,6 +30,7 @@ public class CatalogService implements Registerable {
       items.add(CatalogItem.builder()
           .itemID(identifier.toString())
           .itemGroup(entry.getValue().getGroup().getName())
+          .stackQuantity(Long.valueOf(entry.getValue().getMaxCount()))
           .build());
     });
 

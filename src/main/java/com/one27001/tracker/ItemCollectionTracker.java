@@ -15,7 +15,9 @@ import org.apache.logging.log4j.Logger;
 import com.one27001.tracker.blocks.ChecklistBlock;
 import com.one27001.tracker.items.ChecklistItem;
 import com.one27001.tracker.service.CatalogService;
+import com.one27001.tracker.service.ChecklistSelectionService;
 import com.one27001.tracker.service.ChecklistService;
+import com.one27001.tracker.service.PersistenceService;
 import com.one27001.util.ClassRegistry;
 import com.one27001.util.MyLogger;
 
@@ -34,8 +36,13 @@ public class ItemCollectionTracker implements ClientModInitializer {
 
   private void registerInternalClasses() {
     ClassRegistry.init(log);
+    ClassRegistry.register(new PersistenceService());
     ClassRegistry.register(new CatalogService(Registry.ITEM));
-    ClassRegistry.register(new ChecklistService(ClassRegistry.supply(CatalogService.class)));
+    ClassRegistry.register(new ChecklistSelectionService(
+        ClassRegistry.supply(PersistenceService.class)));
+    ClassRegistry.register(new ChecklistService(
+        ClassRegistry.supply(CatalogService.class),
+        ClassRegistry.supply(PersistenceService.class)));
   }
 
   private void registerChecklistLectern() {

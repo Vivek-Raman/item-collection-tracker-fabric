@@ -1,5 +1,6 @@
 package com.one27001.util;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -9,6 +10,10 @@ public class ClassRegistry {
   private static ClassRegistry instance;
   private static boolean initialized = false;
   private Map<String, Registerable> classes;
+
+  public ClassRegistry() {
+    classes = new HashMap<>();
+  }
 
   public static void init(Logger log) {
     if (initialized || Objects.nonNull(instance)) {

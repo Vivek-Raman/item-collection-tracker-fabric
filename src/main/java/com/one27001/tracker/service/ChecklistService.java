@@ -1,7 +1,13 @@
 package com.one27001.tracker.service;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.logging.log4j.Logger;
 
+import com.one27001.tracker.model.CatalogItem;
 import com.one27001.tracker.model.Checklist;
 import com.one27001.tracker.model.TrackingInfo;
 import com.one27001.util.MyLogger;
@@ -13,13 +19,34 @@ import lombok.RequiredArgsConstructor;
 public class ChecklistService implements Registerable {
   private static final Logger log = MyLogger.get();
   private final CatalogService catalogService;
+  private final PersistenceService persistenceService;
 
   /**
-   * Determines if the item catalog should be re-generated.
-   * @return true if the catalog should be regenerated.
+   * Generate a new checklist from the Minecraft Item Registry.
+   * Returns a copy of the checklist after persisting it.
+   *
+   * @param checklistID will identify the newly created checklist
+   * @return persisted checklist
    */
-  public boolean requireCatalogRegeneration(String checklistID) {
-    return true;
+  public Checklist generateChecklist(String checklistID) {
+    List<CatalogItem> catalog = catalogService.generateCatalog();
+
+    Map<String, TrackingInfo> stats = new LinkedHashMap<>();
+    catalog.forEach(catalogItem -> {
+      long targetQuantity = catalogItem.getStackQuantity() + 1;
+      catalogItem.setStackQuantity(null);
+      stats.put(catalogItem.getItemID(), TrackingInfo.builder()
+        .itemInfo(catalogItem)
+        .collectedQuantity(0L)
+        .targetQuantity(targetQuantity)
+        .build());
+    });
+
+    Checklist checklist = Checklist.builder()
+      .checklistID(checklistID)
+      .stats(stats)
+      .build();
+    return persistenceService.persistChecklist(checklist);
   }
 
 
@@ -29,14 +56,7 @@ public class ChecklistService implements Registerable {
    * @return
    */
   public Checklist getChecklist(String checklistID) {
-    // TODO: implement with persistence layer
-    return Checklist.builder()
-        .checklistID(checklistID)
-        .item("minecraft:iron_block", TrackingInfo.builder()
-            .targetQuantity(65)
-            .collectedQuantity(2)
-            .build())
-        .build();
+    return persistenceService.findChecklistByID(checklistID);
   }
 
   public void starItem(String checklistID, String itemID) {
@@ -54,7 +74,7 @@ public class ChecklistService implements Registerable {
     // TODO: implement
     log.info("Set target quantity to {} for item {} in checklist {}!",
         targetQuantity, itemID, checklistID);
-}
+  }
 
   /**
    * Locks the checklist. Disallows editing of the target quantity.

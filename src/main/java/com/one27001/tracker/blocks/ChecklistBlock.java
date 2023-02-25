@@ -2,7 +2,7 @@ package com.one27001.tracker.blocks;
 
 import org.apache.logging.log4j.Logger;
 
-import com.one27001.tracker.screens.ChecklistScreen;
+import com.one27001.tracker.screens.ChecklistSelectionScreen;
 import com.one27001.util.MyLogger;
 
 import net.minecraft.block.BlockState;
@@ -31,7 +31,7 @@ public class ChecklistBlock extends LecternBlock {
     }
 
     // load UI
-    MinecraftClient.getInstance().setScreen(new ChecklistScreen());
+    MinecraftClient.getInstance().setScreen(new ChecklistSelectionScreen());
     return super.onUse(state, world, pos, player, hand, hit);
   }
 }
