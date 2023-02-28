@@ -24,8 +24,12 @@ public class ClassRegistry {
     initialized = true;
   }
 
-  public static void register(Registerable toRegister) {
-    ClassRegistry.instance.classes.put(toRegister.getClass().getName(), toRegister);
+  public static void register(Registerable toRegister) throws Exception {
+    register(toRegister, toRegister.getClass());
+  }
+
+  public static <T> void register(Registerable toRegister, Class<T> keyClazz) throws Exception {
+    ClassRegistry.instance.classes.put(keyClazz.getName(), toRegister);
     toRegister.init();
   }
 

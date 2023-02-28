@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GlobalConfig implements Serializable {
-  private long version;
   private String activeChecklistID;
 }

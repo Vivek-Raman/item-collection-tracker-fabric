@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.one27001.tracker.blocks.ChecklistBlock;
 import com.one27001.tracker.items.ChecklistItem;
+import com.one27001.tracker.persistence.JsonLocalPersistence;
 import com.one27001.tracker.service.CatalogService;
 import com.one27001.tracker.service.ChecklistSelectionService;
 import com.one27001.tracker.service.ChecklistService;
@@ -20,6 +21,8 @@ import com.one27001.tracker.service.PersistenceService;
 import com.one27001.util.ClassRegistry;
 import com.one27001.util.MyLogger;
 
+import lombok.SneakyThrows;
+
 @Environment(EnvType.CLIENT)
 public class ItemCollectionTracker implements ClientModInitializer {
   private static final Logger log = MyLogger.get();
@@ -27,15 +30,16 @@ public class ItemCollectionTracker implements ClientModInitializer {
   private static final Block CHECKLIST_LECTERN = new ChecklistBlock();
 
   @Override
+  @SneakyThrows(Exception.class)
   public void onInitializeClient() {
     this.registerInternalClasses();
     this.registerChecklistLectern();
     log.info("item-collection-tracker is initialized on the client!");
   }
 
-  private void registerInternalClasses() {
+  private void registerInternalClasses() throws Exception {
     ClassRegistry.init(log);
-    ClassRegistry.register(new PersistenceService());
+    ClassRegistry.register(new JsonLocalPersistence(), PersistenceService.class);
     ClassRegistry.register(new ConfigService(
       ClassRegistry.supply(PersistenceService.class)));
     ClassRegistry.register(new CatalogService(Registry.ITEM));

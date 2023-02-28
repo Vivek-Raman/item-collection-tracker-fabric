@@ -10,6 +10,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
 // TODO: this doesn't work
+@java.lang.Deprecated
+@SuppressWarnings("unused")
 public class ScrollableButtonsListWidget extends EntryListWidget<ScrollableButtonsListWidget.Entry> {
   private final List<String> buttonTexts;
   private final ButtonClickListener listener;

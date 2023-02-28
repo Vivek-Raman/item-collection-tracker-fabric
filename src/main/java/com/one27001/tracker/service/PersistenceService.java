@@ -28,7 +28,6 @@ public class PersistenceService implements Registerable {
   }
 
   public GlobalConfig saveGlobalConfig(GlobalConfig toPersist) {
-    toPersist.setVersion(toPersist.getVersion() + 1);
     // TODO: implement
     return toPersist;
   }

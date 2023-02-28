@@ -14,7 +14,7 @@ public class ConfigService implements Registerable {
   private GlobalConfig instance = null;
 
   @Override
-  public void init() {
+  public void init() throws Exception {
     Registerable.super.init();
 
     if (Objects.isNull(instance)) {
@@ -23,7 +23,7 @@ public class ConfigService implements Registerable {
 
     if (Objects.isNull(instance)) {
       GlobalConfig defaultConfig = GlobalConfig.builder()
-        .activeChecklistID(null)
+        .activeChecklistID("test")
         .build();
       instance = this.persistenceService.saveGlobalConfig(defaultConfig);
     }
