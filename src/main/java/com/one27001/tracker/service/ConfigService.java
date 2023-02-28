@@ -25,7 +25,7 @@ public class ConfigService implements Registerable {
       GlobalConfig defaultConfig = GlobalConfig.builder()
         .activeChecklistID(null)
         .build();
-      instance = this.persistenceService.saveGlobalConfig(defaultConfig);
+      this.update(defaultConfig);
     }
   }
 
@@ -37,8 +37,8 @@ public class ConfigService implements Registerable {
     return instance;
   }
 
-  public GlobalConfig update(GlobalConfig toPersist) {
-    instance = this.persistenceService.saveGlobalConfig(toPersist);
-    return instance;
+  public void update(GlobalConfig toPersist) {
+    this.persistenceService.saveGlobalConfig(toPersist);
+    instance = toPersist;
   }
 }

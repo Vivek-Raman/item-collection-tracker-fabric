@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.one27001.tracker.blocks.ChecklistBlock;
 import com.one27001.tracker.items.ChecklistItem;
+import com.one27001.tracker.persistence.repository.JsonDBRepository;
 import com.one27001.tracker.service.CatalogService;
 import com.one27001.tracker.service.ChecklistSelectionService;
 import com.one27001.tracker.service.ChecklistService;
@@ -35,7 +36,7 @@ public class ItemCollectionTracker implements ClientModInitializer {
 
   private void registerInternalClasses() {
     ClassRegistry.init(log);
-    ClassRegistry.register(new PersistenceService());
+    ClassRegistry.register(new JsonDBRepository());
     ClassRegistry.register(new ConfigService(
       ClassRegistry.supply(PersistenceService.class)));
     ClassRegistry.register(new CatalogService(Registry.ITEM));

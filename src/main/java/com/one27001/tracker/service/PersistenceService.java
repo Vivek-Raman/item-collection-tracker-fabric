@@ -7,7 +7,7 @@ import com.one27001.tracker.model.Checklist;
 import com.one27001.tracker.model.GlobalConfig;
 import com.one27001.util.Registerable;
 
-public class PersistenceService implements Registerable {
+public abstract class PersistenceService implements Registerable {
   public Checklist findChecklistByID(String checklistID) {
     // TODO: implement
     return null;
@@ -27,9 +27,6 @@ public class PersistenceService implements Registerable {
     return null;
   }
 
-  public GlobalConfig saveGlobalConfig(GlobalConfig toPersist) {
-    toPersist.setVersion(toPersist.getVersion() + 1);
-    // TODO: implement
-    return toPersist;
+  public void saveGlobalConfig(GlobalConfig toPersist) {
   }
 }

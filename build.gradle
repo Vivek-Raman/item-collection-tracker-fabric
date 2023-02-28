@@ -53,6 +53,9 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
   include modImplementation("dev.lambdaurora:spruceui:${project.spruceui_version}")
 
+  include implementation ("io.jsondb:jsondb-core:${project.jsondb_version}")
+  annotationProcessor "io.jsondb:jsondb-core:${project.jsondb_version}"
+
   compileOnly 'org.projectlombok:lombok:1.18.26'
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
 
