@@ -5,8 +5,10 @@ import org.apache.logging.log4j.Logger;
 import com.one27001.tracker.screens.ChecklistSelectionScreen;
 import com.one27001.util.MyLogger;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LecternBlock;
+import net.minecraft.block.Material;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -18,8 +20,8 @@ import net.minecraft.world.World;
 public class ChecklistBlock extends LecternBlock {
   private static final Logger log = MyLogger.get();
 
-  public ChecklistBlock(Settings settings) {
-    super(settings);
+  public ChecklistBlock() {
+    super(FabricBlockSettings.of(Material.WOOD));
   }
 
   @Override

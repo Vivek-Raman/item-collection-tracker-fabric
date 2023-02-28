@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TrackingInfo implements Serializable {
-  private CatalogItem itemInfo;
-  private Long targetQuantity;
-  private Long collectedQuantity;
+public class GlobalConfig implements Serializable {
+  private long version;
+  private String activeChecklistID;
 }

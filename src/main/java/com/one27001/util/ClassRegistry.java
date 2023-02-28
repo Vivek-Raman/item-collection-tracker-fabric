@@ -29,6 +29,7 @@ public class ClassRegistry {
     toRegister.init();
   }
 
+  @SuppressWarnings("unchecked")
   public static <T extends Registerable> T supply(Class<T> clazz) {
     return (T) ClassRegistry.instance.classes.get(clazz.getName());
   }

@@ -4,9 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.Material;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -17,6 +15,7 @@ import com.one27001.tracker.items.ChecklistItem;
 import com.one27001.tracker.service.CatalogService;
 import com.one27001.tracker.service.ChecklistSelectionService;
 import com.one27001.tracker.service.ChecklistService;
+import com.one27001.tracker.service.ConfigService;
 import com.one27001.tracker.service.PersistenceService;
 import com.one27001.util.ClassRegistry;
 import com.one27001.util.MyLogger;
@@ -25,7 +24,7 @@ import com.one27001.util.MyLogger;
 public class ItemCollectionTracker implements ClientModInitializer {
   private static final Logger log = MyLogger.get();
 
-  private static final Block CHECKLIST_LECTERN = new ChecklistBlock(FabricBlockSettings.of(Material.WOOD));
+  private static final Block CHECKLIST_LECTERN = new ChecklistBlock();
 
   @Override
   public void onInitializeClient() {
@@ -37,11 +36,15 @@ public class ItemCollectionTracker implements ClientModInitializer {
   private void registerInternalClasses() {
     ClassRegistry.init(log);
     ClassRegistry.register(new PersistenceService());
+    ClassRegistry.register(new ConfigService(
+      ClassRegistry.supply(PersistenceService.class)));
     ClassRegistry.register(new CatalogService(Registry.ITEM));
     ClassRegistry.register(new ChecklistSelectionService(
+      ClassRegistry.supply(ConfigService.class),
         ClassRegistry.supply(PersistenceService.class)));
     ClassRegistry.register(new ChecklistService(
         ClassRegistry.supply(CatalogService.class),
+        ClassRegistry.supply(ConfigService.class),
         ClassRegistry.supply(PersistenceService.class)));
   }
 

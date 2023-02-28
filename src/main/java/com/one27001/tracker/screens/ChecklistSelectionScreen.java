@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.logging.log4j.Logger;
 
 import com.one27001.tracker.service.ChecklistSelectionService;
-import com.one27001.tracker.widgets.selection.ScrollableButtonsListWidget;
 import com.one27001.util.ClassRegistry;
 import com.one27001.util.MyLogger;
 
@@ -16,11 +15,14 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
+// TODO: migrate to spruceUI
 public class ChecklistSelectionScreen extends Screen {
   private static final Logger log = MyLogger.get();
 
   // private ChecklistService checklistService;
   private ChecklistSelectionService checklistSelectionService;
+
+  // State
   private List<String> checklists;
 
 
@@ -37,7 +39,6 @@ public class ChecklistSelectionScreen extends Screen {
     super.init();
 
     ButtonWidget backButton = new ButtonWidget(width / 2 - 100, height - 30, 200, 20, new LiteralText("Back"), (button) -> {
-      // Close screen and return to game
       MinecraftClient.getInstance().setScreen(null);
     });
     addDrawableChild(backButton);
@@ -70,7 +71,8 @@ public class ChecklistSelectionScreen extends Screen {
           BUTTON_MARGIN + (BUTTON_HEIGHT + BUTTON_MARGIN) * i, BUTTON_WIDTH, BUTTON_HEIGHT,
           new LiteralText(checklistID), button -> {
             log.info("Selected checklist {}, navigating to checklist details screen!", checklistID);
-            // TODO: continue here
+            this.checklistSelectionService.setActiveChecklist(checklistID);
+            MinecraftClient.getInstance().setScreen(new ChecklistDetailScreen(this));
           }));
       }
     }

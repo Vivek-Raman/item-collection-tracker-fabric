@@ -1,6 +1,5 @@
 package com.one27001.tracker.service;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class ChecklistService implements Registerable {
   private static final Logger log = MyLogger.get();
   private final CatalogService catalogService;
+  private final ConfigService configService;
   private final PersistenceService persistenceService;
 
   /**
@@ -57,6 +57,14 @@ public class ChecklistService implements Registerable {
    */
   public Checklist getChecklist(String checklistID) {
     return persistenceService.findChecklistByID(checklistID);
+  }
+
+  /**
+   * Fetches info of checklist marked as Active
+   * @return active checklist
+   */
+  public Checklist getActiveChecklist() {
+    return this.getChecklist(this.configService.get().getActiveChecklistID());
   }
 
   public void starItem(String checklistID, String itemID) {
