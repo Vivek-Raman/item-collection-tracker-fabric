@@ -2,6 +2,8 @@ package com.one27001.util.storage;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,33 +26,36 @@ public class JsonMCTemplate extends JsonMCHelper {
     this.gson = configurer.getGson();
   }
 
-  public <T extends BaseJsonMCEntity> T save(T toSave) throws Exception {
-    return this.save(toSave, true);
+  public <T extends BaseJsonMCEntity> T save(T toSave, Class<T> clazz) throws Exception {
+    return this.save(toSave, true, clazz);
   }
 
-  public <T extends BaseJsonMCEntity> T save(T toSave, boolean update) throws Exception {
+  public <T extends BaseJsonMCEntity> T save(T toSave, boolean update, Class<T> clazz) throws Exception {
     String docId = toSave.getId();
-    boolean didWrite = false;
+    this.validateID(docId);
 
-    Path filePath = this.basePath.resolve(this.getJsonFileNameForEntity(toSave));
+    boolean didWrite = false;
+    Path filePath = this.basePath.resolve(this.getJsonFileNameForEntity(toSave.getClass()));
     this.prepareDocumentToSave(toSave);
 
     log.debug("Saving document {} with ID {} to path {}", toSave, docId, filePath);
 
     if (!Files.exists(filePath)) {
-      // crate file for first document of this type
-      log.debug("File not found: {}, creating new file", filePath);
+      // create file for first document of this type
       filePath = Files.createFile(filePath);
     }
 
-    Map<String, T> currentDataMap = this.deserializeToMap(Files.readString(filePath));
+    Map<String, T> currentDataMap = this.deserializeToMap(Files.readString(filePath), clazz);
     if (StringUtils.isNotBlank(docId) && currentDataMap.containsKey(docId)) {
+      T currentDoc = currentDataMap.get(docId);
       if (update) {
         // update
-        T currentDoc = currentDataMap.get(docId);
         this.validateVersion(currentDoc, toSave);
         currentDataMap.put(docId, toSave);
         didWrite = true;
+      } else {
+        this.invalidate(String.format("Document with ID: \"%s\" already exists! Doc: %s",
+          docId, this.getJsonString(currentDoc)));
       }
     } else {
       // insert
@@ -61,10 +66,30 @@ public class JsonMCTemplate extends JsonMCHelper {
 
     if (didWrite) {
       // write back to file
-      log.debug("Writing {}", filePath.toString());
       Files.writeString(filePath, this.getJsonString(currentDataMap.values()));
     }
 
     return toSave;
+  }
+
+  public <T extends BaseJsonMCEntity> T findByID(String id, Class<T> clazz) throws Exception {
+    this.validateID(id);
+
+    Path filePath = this.basePath.resolve(this.getJsonFileNameForEntity(clazz));
+    if (!Files.exists(filePath)) {
+      return null;
+    }
+
+    Map<String, T> map = this.deserializeToMap(Files.readString(filePath), clazz);
+    return map.get(id);
+  }
+
+  public <T extends BaseJsonMCEntity> List<T> findAll(Class<T> clazz) throws Exception {
+    Path filePath = this.basePath.resolve(this.getJsonFileNameForEntity(clazz));
+    if (!Files.exists(filePath)) {
+      return Collections.emptyList();
+    }
+
+    return this.deserializeToList(Files.readString(filePath), clazz);
   }
 }

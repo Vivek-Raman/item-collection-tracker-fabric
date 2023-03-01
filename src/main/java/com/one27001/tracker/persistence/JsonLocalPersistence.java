@@ -1,5 +1,7 @@
 package com.one27001.tracker.persistence;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.Logger;
 
 import com.google.gson.GsonBuilder;
@@ -15,13 +17,23 @@ import net.fabricmc.loader.api.FabricLoader;
 public class JsonLocalPersistence extends PersistenceService {
   private static final Logger log = MyLogger.get();
   private JsonMCTemplate jsonMCTemplate;
+  private JsonMCTemplate configJsonMCTemplate;
 
   @Override
   public void init() throws Exception {
     super.init();
+
     this.jsonMCTemplate = new JsonMCTemplate(JsonMCConfigurer.builder()
       .basePath(FabricLoader.getInstance().getGameDir().resolve("item-collection-tracker").toString())
-      .logger(MyLogger.get())
+      .logger(log)
+      .gson(new GsonBuilder()
+        .setPrettyPrinting()
+        .create())
+      .build());
+
+    this.configJsonMCTemplate = new JsonMCTemplate(JsonMCConfigurer.builder()
+      .basePath(FabricLoader.getInstance().getConfigDir().resolve("item-collection-tracker").toString())
+      .logger(log)
       .gson(new GsonBuilder()
         .setPrettyPrinting()
         .create())
@@ -30,16 +42,27 @@ public class JsonLocalPersistence extends PersistenceService {
 
   @Override
   public GlobalConfig fetchGlobalConfig() {
-    // TODO: continue implementation here
-    return null;
+    String id = GlobalConfigEntity.DEFAULT_PROFILE_ID;
+    try {
+      GlobalConfigEntity entity = this.configJsonMCTemplate.findByID(id, GlobalConfigEntity.class);
+      log.info("Fetched config {} from file", entity);
+      return Optional.ofNullable(entity).map(GlobalConfigEntity::getConfig).orElse(null);
+    } catch (Exception e) {
+      log.error("Failed to fetch GlobalConfigEntity with id: {}", id, e);
+      return null;
+    }
   }
 
   @Override
   public GlobalConfig saveGlobalConfig(GlobalConfig toPersist) {
+    GlobalConfigEntity entity = GlobalConfigEntity.builder()
+      .id(GlobalConfigEntity.DEFAULT_PROFILE_ID)
+      .config(toPersist)
+      .build();
     try {
-      return this.jsonMCTemplate.save(GlobalConfigEntity.builder().config(toPersist).build()).getConfig();
+      return this.configJsonMCTemplate.save(entity, GlobalConfigEntity.class).getConfig();
     } catch (Exception e) {
-      log.error("Failed to saveGlobalConfig {}", toPersist, e);
+      log.error("Failed to saveGlobalConfig {}", entity, e);
       return null;
     }
   }
