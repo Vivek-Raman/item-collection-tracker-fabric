@@ -10,4 +10,8 @@ import lombok.ToString;
 public abstract class BaseJsonMCEntity implements Serializable {
   private String id;
   private long version = 0;
+
+  public long incrementVersion() {
+    return ++this.version;
+  }
 }

@@ -41,5 +41,7 @@ public class ChecklistDetailScreen extends AbstractScreen {
 
     addDrawableChild(new SpruceLabelWidget(Position.center(100, 0),
       new LiteralText(checklist.getChecklistID()), 250));
+
+    addDrawableChild(this.backButton);
   }
 }

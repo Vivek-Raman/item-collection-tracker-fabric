@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -51,6 +52,7 @@ public class JsonMCTemplate extends JsonMCHelper {
       if (update) {
         // update
         this.validateVersion(currentDoc, toSave);
+        toSave.incrementVersion();
         currentDataMap.put(docId, toSave);
         didWrite = true;
       } else {
@@ -82,6 +84,10 @@ public class JsonMCTemplate extends JsonMCHelper {
 
     Map<String, T> map = this.deserializeToMap(Files.readString(filePath), clazz);
     return map.get(id);
+  }
+
+  public <T extends BaseJsonMCEntity> List<T> findBy(Predicate<T> filter, Class<T> clazz) throws Exception {
+    return this.findAll(clazz).stream().filter(filter).toList();
   }
 
   public <T extends BaseJsonMCEntity> List<T> findAll(Class<T> clazz) throws Exception {

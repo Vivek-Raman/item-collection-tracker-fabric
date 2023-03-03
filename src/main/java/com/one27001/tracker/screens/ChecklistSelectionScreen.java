@@ -7,16 +7,15 @@ import org.apache.logging.log4j.Logger;
 import com.one27001.tracker.service.ChecklistSelectionService;
 import com.one27001.util.ClassRegistry;
 import com.one27001.util.MyLogger;
+import com.one27001.util.screen.AbstractScreen;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
-// TODO: migrate to spruceUI
-public class ChecklistSelectionScreen extends Screen {
+public class ChecklistSelectionScreen extends AbstractScreen {
   private static final Logger log = MyLogger.get();
 
   // private ChecklistService checklistService;
@@ -27,7 +26,7 @@ public class ChecklistSelectionScreen extends Screen {
 
 
   public ChecklistSelectionScreen() {
-    super(new TranslatableText("one27001.tracker.screen.checklist-selection.title"));
+    super(null, new TranslatableText("one27001.tracker.screen.checklist-selection.title"));
 
     // checklistService = ClassRegistry.supply(ChecklistService.class);
     checklistSelectionService = ClassRegistry.supply(ChecklistSelectionService.class);
@@ -71,7 +70,7 @@ public class ChecklistSelectionScreen extends Screen {
           BUTTON_MARGIN + (BUTTON_HEIGHT + BUTTON_MARGIN) * i, BUTTON_WIDTH, BUTTON_HEIGHT,
           new LiteralText(checklistID), button -> {
             log.info("Selected checklist {}, navigating to checklist details screen!", checklistID);
-            this.checklistSelectionService.setActiveChecklist(checklistID);
+            this.checklistSelectionService.setActiveChecklistID(checklistID);
             MinecraftClient.getInstance().setScreen(new ChecklistDetailScreen(this));
           }));
       }

@@ -22,13 +22,18 @@ public abstract class AbstractScreen extends SpruceScreen {
 
 
   @Override
+  protected void init() {
+    super.init();
+
+    this.backButton = new SpruceButtonWidget(Position.of(this.width / 2, this.height - 30),
+      100, 20, new TranslatableText("one27001.tracker.screen.common.back"), (button) -> {
+      navigateToParentScreen();
+    });
+  }
+
+  @Override
   public void renderTitle(MatrixStack matrices, int mouseX, int mouseY, float delta) {
     drawCenteredText(matrices, textRenderer, this.title, this.width / 2, 8, 0xFFFFFF);
-
-    this.backButton = new SpruceButtonWidget(Position.of(this.width / 2, this.height - 60),
-      100, 20, new TranslatableText("one27001.tracker.screen.common.back"), (button) -> {
-        navigateToParentScreen();
-      });
   }
 
   protected void navigateToParentScreen() {

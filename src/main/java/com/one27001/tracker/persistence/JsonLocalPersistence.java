@@ -55,14 +55,13 @@ public class JsonLocalPersistence extends PersistenceService {
 
   @Override
   public GlobalConfig saveGlobalConfig(GlobalConfig toPersist) {
-    GlobalConfigEntity entity = GlobalConfigEntity.builder()
-      .id(GlobalConfigEntity.DEFAULT_PROFILE_ID)
-      .config(toPersist)
-      .build();
+    String id = GlobalConfigEntity.DEFAULT_PROFILE_ID;
     try {
+      GlobalConfigEntity entity = this.configJsonMCTemplate.findByID(id, GlobalConfigEntity.class);
+      entity.setConfig(toPersist);
       return this.configJsonMCTemplate.save(entity, GlobalConfigEntity.class).getConfig();
     } catch (Exception e) {
-      log.error("Failed to saveGlobalConfig {}", entity, e);
+      log.error("Failed to saveGlobalConfig with id: {}", id, e);
       return null;
     }
   }

@@ -16,9 +16,14 @@ public class ChecklistSelectionService implements Registerable {
     return persistenceService.listChecklists();
   }
 
-  public void setActiveChecklist(String checklistID) {
+  public void setActiveChecklistID(String checklistID) {
     GlobalConfig toUpdate = this.configService.get();
     toUpdate.setActiveChecklistID(checklistID);
     this.configService.update(toUpdate);
+  }
+
+  public String getActiveChecklistID() {
+    return this.configService.get().getActiveChecklistID();
+
   }
 }
