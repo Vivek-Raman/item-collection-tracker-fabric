@@ -1,29 +1,21 @@
 package com.one27001.tracker.service;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.one27001.tracker.model.Checklist;
 import com.one27001.tracker.model.GlobalConfig;
 import com.one27001.util.Registerable;
 
-public abstract class PersistenceService implements Registerable {
-  public Checklist findChecklistByID(String checklistID) {
-    // TODO: implement
-    return null;
-  }
+public interface PersistenceService extends Registerable {
+  GlobalConfig fetchGlobalConfig();
 
-  public Checklist persistChecklist(Checklist checklist) {
-    // TODO: implement persistence
-    return checklist;
-  }
+  GlobalConfig saveGlobalConfig(GlobalConfig toPersist);
 
-  public List<String> listChecklists() {
-    // TODO: implement persistence, resume here
-    return Arrays.asList("myDevList", "myDevList12");
-  }
+  Checklist saveNewChecklist(Checklist checklist);
 
-  public abstract GlobalConfig fetchGlobalConfig();
+  List<String> listChecklists();
 
-  public abstract GlobalConfig saveGlobalConfig(GlobalConfig toPersist);
+  Checklist findChecklistByID(String checklistID);
+
+  Checklist persistChecklist(Checklist checklist);
 }

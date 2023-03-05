@@ -1,6 +1,7 @@
 package com.one27001.tracker.screens;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.logging.log4j.Logger;
 
@@ -38,15 +39,20 @@ public class ChecklistSelectionScreen extends AbstractScreen {
   @Override
   protected void init() {
     super.init();
-    this.widgetList = new ChecklistSelectionListWidget(checklists, checklistID -> {
-        log.info("Selected checklist {}, navigating to checklist details screen!", checklistID);
-        this.checklistSelectionService.setActiveChecklistID(checklistID);
-        MinecraftClient.getInstance().setScreen(new ChecklistDetailScreen(this));
-        return true;
-      }, Position.of((this.width - BUTTON_WIDTH) / 2, 40), BUTTON_WIDTH,
-      Math.min((BUTTON_HEIGHT + BUTTON_MARGIN) * (this.checklists.size() + 1), this.height - 60));
 
-    this.addDrawableChild(this.widgetList);
+    if (Objects.nonNull(this.checklists) && !this.checklists.isEmpty()) {
+      this.widgetList = new ChecklistSelectionListWidget(this.checklists, checklistID -> {
+          log.info("Selected checklist {}, navigating to checklist details screen!", checklistID);
+          this.checklistSelectionService.setActiveChecklistID(checklistID);
+          MinecraftClient.getInstance().setScreen(new ChecklistDetailScreen(this));
+          return true;
+        }, Position.of((this.width - BUTTON_WIDTH) / 2, 40), BUTTON_WIDTH,
+        Math.min((BUTTON_HEIGHT + BUTTON_MARGIN) * (this.checklists.size() + 1), this.height - 60));
+      this.addDrawableChild(this.widgetList);
+    } else {
+      // TODO: navigate to "create new checklist" screen
+    }
+
     this.addDrawableChild(this.backButton);
   }
 }

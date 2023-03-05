@@ -2,6 +2,7 @@ package com.one27001.util.storage;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,6 @@ import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
 
-// TODO: move to a separate library and import as JAR-in-JAR
 public class JsonMCTemplate extends JsonMCHelper {
   private Path basePath;
 
@@ -32,6 +32,7 @@ public class JsonMCTemplate extends JsonMCHelper {
   }
 
   public <T extends BaseJsonMCEntity> T save(T toSave, boolean update, Class<T> clazz) throws Exception {
+    LocalDateTime now = LocalDateTime.now();
     String docId = toSave.getId();
     this.validateID(docId);
 
@@ -53,6 +54,7 @@ public class JsonMCTemplate extends JsonMCHelper {
         // update
         this.validateVersion(currentDoc, toSave);
         toSave.incrementVersion();
+        toSave.setLastUpdated(now);
         currentDataMap.put(docId, toSave);
         didWrite = true;
       } else {
@@ -62,6 +64,8 @@ public class JsonMCTemplate extends JsonMCHelper {
     } else {
       // insert
       if (StringUtils.isBlank(docId)) docId = this.generateID();
+      toSave.setCreated(now);
+      toSave.setLastUpdated(now);
       currentDataMap.put(docId, toSave);
       didWrite = true;
     }

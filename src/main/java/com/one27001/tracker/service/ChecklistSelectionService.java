@@ -13,7 +13,7 @@ public class ChecklistSelectionService implements Registerable {
   private final PersistenceService persistenceService;
 
   public List<String> listChecklists() {
-    return persistenceService.listChecklists();
+    return this.persistenceService.listChecklists();
   }
 
   public void setActiveChecklistID(String checklistID) {
