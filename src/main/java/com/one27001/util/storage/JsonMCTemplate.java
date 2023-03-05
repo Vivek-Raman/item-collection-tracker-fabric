@@ -2,8 +2,8 @@ package com.one27001.util.storage;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -32,7 +32,7 @@ public class JsonMCTemplate extends JsonMCHelper {
   }
 
   public <T extends BaseJsonMCEntity> T save(T toSave, boolean update, Class<T> clazz) throws Exception {
-    LocalDateTime now = LocalDateTime.now();
+    Date now = new Date();
     String docId = toSave.getId();
     this.validateID(docId);
 

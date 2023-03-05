@@ -13,9 +13,9 @@ import net.minecraft.text.TranslatableText;
 
 @Environment(EnvType.CLIENT)
 public abstract class AbstractScreen extends SpruceScreen {
-  private static final int BUTTON_WIDTH = 200;
-  private static final int BUTTON_HEIGHT = 20;
-  private static final int VERTICAL_MARGIN = 16;
+  protected static final int BUTTON_WIDTH = 200;
+  protected static final int BUTTON_HEIGHT = 20;
+  protected static final int VERTICAL_MARGIN = 16;
 
   protected Screen parent = null;
 

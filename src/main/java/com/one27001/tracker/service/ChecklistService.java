@@ -46,7 +46,7 @@ public class ChecklistService implements Registerable {
       .checklistID(checklistID)
       .stats(stats)
       .build();
-    return persistenceService.persistChecklist(checklist);
+    return persistenceService.saveNewChecklist(checklist);
   }
 
 

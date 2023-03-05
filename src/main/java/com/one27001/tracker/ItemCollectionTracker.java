@@ -42,7 +42,7 @@ public class ItemCollectionTracker implements ClientModInitializer {
     ClassRegistry.register(new JsonLocalPersistence(), PersistenceService.class);
     ClassRegistry.register(new ConfigService(
       ClassRegistry.supply(PersistenceService.class)));
-    ClassRegistry.register(new CatalogService());
+    ClassRegistry.register(new CatalogService(Registry.ITEM));
     ClassRegistry.register(new ChecklistSelectionService(
       ClassRegistry.supply(ConfigService.class),
         ClassRegistry.supply(PersistenceService.class)));
@@ -52,6 +52,7 @@ public class ItemCollectionTracker implements ClientModInitializer {
         ClassRegistry.supply(PersistenceService.class)));
   }
 
+  // TODO: include this in server init, I don't know if this is required
   private void registerChecklistLectern() {
     Registry.register(Registry.BLOCK, new Identifier("one27001", "checklist_lectern"), CHECKLIST_LECTERN);
     Registry.register(Registry.ITEM, new Identifier("one27001", "checklist_lectern"),

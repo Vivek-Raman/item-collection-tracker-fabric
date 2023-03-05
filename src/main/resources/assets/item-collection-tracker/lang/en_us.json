@@ -1,5 +1,8 @@
 {
   "one27001.tracker.screen.checklist-selection.title": "Pick a checklist!",
+  "one27001.tracker.screen.checklist-selection.no-lists-found": "To create a new checklist, press +.",
+  "one27001.tracker.screen.checklist-creation.title": "Generate a new checklist",
+  "one27001.tracker.screen.checklist-creation.submit": "Generate",
   "one27001.tracker.screen.checklist-detail.title": "Checklist",
   "one27001.tracker.screen.common.back": "Back"
 }
