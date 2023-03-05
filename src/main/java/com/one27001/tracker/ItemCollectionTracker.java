@@ -34,7 +34,7 @@ public class ItemCollectionTracker implements ClientModInitializer {
   public void onInitializeClient() {
     this.registerInternalClasses();
     this.registerChecklistLectern();
-    log.info("item-collection-tracker is initialized on the client!");
+    log.info("Initialized on the client!");
   }
 
   private void registerInternalClasses() throws Exception {
@@ -42,7 +42,7 @@ public class ItemCollectionTracker implements ClientModInitializer {
     ClassRegistry.register(new JsonLocalPersistence(), PersistenceService.class);
     ClassRegistry.register(new ConfigService(
       ClassRegistry.supply(PersistenceService.class)));
-    ClassRegistry.register(new CatalogService(Registry.ITEM));
+    ClassRegistry.register(new CatalogService());
     ClassRegistry.register(new ChecklistSelectionService(
       ClassRegistry.supply(ConfigService.class),
         ClassRegistry.supply(PersistenceService.class)));

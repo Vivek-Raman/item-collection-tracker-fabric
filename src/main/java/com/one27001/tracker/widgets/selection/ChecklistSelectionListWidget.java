@@ -26,24 +26,38 @@ public class ChecklistSelectionListWidget extends SpruceEntryListWidget<Checklis
   public ChecklistSelectionListWidget(List<String> checklistIDs, ChecklistSelectionEntryClickedAction onSelected,
       Position position, int width, int height) {
     super(position, width, height, BUTTON_MARGIN, ChecklistSelectionListWidget.Entry.class);
+    this.setBackground(EmptyBackground.EMPTY_BACKGROUND);
+    this.setBorder(EmptyBorder.EMPTY_BORDER);
+    this.setRenderTransition(false);
 
     for (String checklistID : checklistIDs) {
       this.addEntry(new Entry(this, checklistID, onSelected));
     }
   }
 
+  @Override
+  public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    super.mouseClicked(mouseX, mouseY, button);
+    for (Entry entry : this.children()) {
+      if (entry.getWidget().isMouseOver(mouseX, mouseY)) {
+        return entry.select();
+      }
+    }
+    return false;
+  }
+
+  @Getter
   public static class Entry extends SpruceEntryListWidget.Entry {
-    @Getter private final String checklistID;
+    private final String checklistID;
+    private final ChecklistSelectionEntryClickedAction onSelected;
     private final AbstractSpruceWidget widget;
 
     public Entry(SpruceWidget parent, String checklistID, ChecklistSelectionEntryClickedAction onSelected) {
+      super();
       this.checklistID = checklistID;
+      this.onSelected = onSelected;
       this.widget = new SpruceButtonWidget(Position.of(this, 0, 4),
-        BUTTON_WIDTH, BUTTON_HEIGHT, new LiteralText(this.checklistID),
-        (button) -> {
-          log.info("Clicked button {}", this.checklistID); // TODO: This isn't working
-          onSelected.onClick(this.checklistID);
-        });
+        BUTTON_WIDTH, BUTTON_HEIGHT, new LiteralText(this.checklistID), button -> {});
     }
 
     @Override
@@ -55,10 +69,14 @@ public class ChecklistSelectionListWidget extends SpruceEntryListWidget<Checklis
     protected void renderWidget(MatrixStack matrices, int mouseX, int mouseY, float delta) {
       this.widget.render(matrices, mouseX, mouseY, delta);
     }
+
+    public boolean select() {
+      return this.onSelected.onClick(this.checklistID);
+    }
   }
 
   @FunctionalInterface
   public interface ChecklistSelectionEntryClickedAction {
-    void onClick(String selectedChecklistID);
+    boolean onClick(String selectedChecklistID);
   }
 }

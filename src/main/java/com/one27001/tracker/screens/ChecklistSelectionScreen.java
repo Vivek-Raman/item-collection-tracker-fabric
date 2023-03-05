@@ -16,6 +16,9 @@ import net.minecraft.text.TranslatableText;
 
 public class ChecklistSelectionScreen extends AbstractScreen {
   private static final Logger log = MyLogger.get();
+  private static final int BUTTON_WIDTH = 200;
+  private static final int BUTTON_HEIGHT = 20;
+  private static final int BUTTON_MARGIN = 4;
 
   //     private ChecklistService checklistService;
   private ChecklistSelectionService checklistSelectionService;
@@ -35,13 +38,13 @@ public class ChecklistSelectionScreen extends AbstractScreen {
   @Override
   protected void init() {
     super.init();
-
-    log.info("Checklists: {}, width {}, height, {}", this.checklists, this.width, this.height);
     this.widgetList = new ChecklistSelectionListWidget(checklists, checklistID -> {
-      log.info("Selected checklist {}, navigating to checklist details screen!", checklistID);
-      this.checklistSelectionService.setActiveChecklistID(checklistID);
-      MinecraftClient.getInstance().setScreen(new ChecklistDetailScreen(this));
-    }, Position.of(this.width / 2 - 150, 40), 300, this.height - 45);
+        log.info("Selected checklist {}, navigating to checklist details screen!", checklistID);
+        this.checklistSelectionService.setActiveChecklistID(checklistID);
+        MinecraftClient.getInstance().setScreen(new ChecklistDetailScreen(this));
+        return true;
+      }, Position.of((this.width - BUTTON_WIDTH) / 2, 40), BUTTON_WIDTH,
+      Math.min((BUTTON_HEIGHT + BUTTON_MARGIN) * (this.checklists.size() + 1), this.height - 60));
 
     this.addDrawableChild(this.widgetList);
     this.addDrawableChild(this.backButton);
