@@ -10,6 +10,10 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 public abstract class AbstractScreen extends SpruceScreen {
+  private static final int BUTTON_WIDTH = 200;
+  private static final int BUTTON_HEIGHT = 20;
+  private static final int BUTTON_MARGIN = 4;
+
   protected Screen parent = null;
 
   protected SpruceButtonWidget backButton = null;
@@ -19,21 +23,19 @@ public abstract class AbstractScreen extends SpruceScreen {
     this.parent = parent;
   }
 
-
-
   @Override
   protected void init() {
     super.init();
 
-    this.backButton = new SpruceButtonWidget(Position.of(this.width / 2, this.height - 30),
-      100, 20, new TranslatableText("one27001.tracker.screen.common.back"), (button) -> {
-      navigateToParentScreen();
+    this.backButton = new SpruceButtonWidget(Position.of(this.width / 2 - BUTTON_WIDTH / 2, this.height - 20),
+    BUTTON_WIDTH, BUTTON_HEIGHT, new TranslatableText("one27001.tracker.screen.common.back"), (button) -> {
+      this.navigateToParentScreen();
     });
   }
 
   @Override
   public void renderTitle(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-    drawCenteredText(matrices, textRenderer, this.title, this.width / 2, 8, 0xFFFFFF);
+    this.drawCenteredText(matrices, textRenderer, this.title, this.width / 2, 8, 0xFFFFFF);
   }
 
   protected void navigateToParentScreen() {

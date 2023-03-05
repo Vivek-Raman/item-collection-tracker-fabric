@@ -35,13 +35,14 @@ public class ChecklistDetailScreen extends AbstractScreen {
     }
   }
 
+
+
   @Override
-  public void renderWidgets(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-    super.renderWidgets(matrices, mouseX, mouseY, delta);
+  protected void init() {
+    super.init();
 
     addDrawableChild(new SpruceLabelWidget(Position.center(100, 0),
       new LiteralText(checklist.getChecklistID()), 250));
-
     addDrawableChild(this.backButton);
   }
 }
