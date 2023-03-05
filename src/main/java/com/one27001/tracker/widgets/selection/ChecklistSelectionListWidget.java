@@ -2,10 +2,6 @@ package com.one27001.tracker.widgets.selection;
 
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
-import com.one27001.util.MyLogger;
-
 import dev.lambdaurora.spruceui.Position;
 import dev.lambdaurora.spruceui.background.EmptyBackground;
 import dev.lambdaurora.spruceui.border.EmptyBorder;
