@@ -31,7 +31,7 @@ public abstract class AbstractScreen extends SpruceScreen {
     super.init();
 
     this.backButton = new SpruceButtonWidget(
-      Position.of((this.width - BUTTON_WIDTH) / 2, this.height - VERTICAL_MARGIN + BUTTON_HEIGHT),
+      Position.of((this.width - BUTTON_WIDTH) / 2, this.height - VERTICAL_MARGIN - BUTTON_HEIGHT),
       BUTTON_WIDTH, BUTTON_HEIGHT, new TranslatableText("one27001.tracker.screen.common.back"),
       (button) -> this.navigateToParentScreen());
   }

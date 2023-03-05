@@ -18,7 +18,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
 public class ChecklistSelectionListWidget extends SpruceEntryListWidget<ChecklistSelectionListWidget.Entry> {
-  private static Logger log = MyLogger.get();
   private static final int BUTTON_WIDTH = 200;
   private static final int BUTTON_HEIGHT = 20;
   private static final int BUTTON_MARGIN = 4;
@@ -39,16 +38,15 @@ public class ChecklistSelectionListWidget extends SpruceEntryListWidget<Checklis
   public boolean mouseClicked(double mouseX, double mouseY, int button) {
     super.mouseClicked(mouseX, mouseY, button);
     for (Entry entry : this.children()) {
-      if (entry.getWidget().isMouseOver(mouseX, mouseY)) {
+      if (entry.isMouseOver(mouseX, mouseY)) {
         return entry.select();
       }
     }
     return false;
   }
 
-  @Getter
   public static class Entry extends SpruceEntryListWidget.Entry {
-    private final String checklistID;
+    @Getter private final String checklistID;
     private final ChecklistSelectionEntryClickedAction onSelected;
     private final AbstractSpruceWidget widget;
 
@@ -70,7 +68,13 @@ public class ChecklistSelectionListWidget extends SpruceEntryListWidget<Checklis
       this.widget.render(matrices, mouseX, mouseY, delta);
     }
 
+    @Override
+    public boolean isMouseOver(double mouseX, double mouseY) {
+      return this.widget.isMouseOver(mouseX, mouseY);
+    }
+
     public boolean select() {
+      this.widget.playDownSound();
       return this.onSelected.onClick(this.checklistID);
     }
   }
