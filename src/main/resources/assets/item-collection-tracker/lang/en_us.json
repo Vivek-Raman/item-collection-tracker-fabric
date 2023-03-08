@@ -1,7 +1,11 @@
 {
   "one27001.tracker.screen.checklist-selection.title": "Pick a checklist!",
-  "one27001.tracker.screen.checklist-selection.no-lists-found": "To create a new checklist, press +.",
+  "one27001.tracker.screen.checklist-selection.no-lists-found": "To create a new checklist, click the button below.",
+  "one27001.tracker.screen.checklist-selection.create-checklist": "Create a new checklist",
   "one27001.tracker.screen.checklist-creation.title": "Generate a new checklist",
+  "one27001.tracker.screen.checklist-creation.validation.failure.toast.title": "Failed to create checklist!",
+  "one27001.tracker.screen.checklist-creation.validation.failure.checklist-id-blank.toast.description": "Please enter a checklist ID.",
+  "one27001.tracker.screen.checklist-creation.validation.failure.checklist-id-exists.toast.description": "A checklist with this ID already exists!",
   "one27001.tracker.screen.checklist-creation.submit": "Generate",
   "one27001.tracker.screen.checklist-detail.title": "Checklist",
   "one27001.tracker.screen.common.back": "Back"

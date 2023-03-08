@@ -7,6 +7,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -43,5 +44,10 @@ public abstract class AbstractScreen extends SpruceScreen {
 
   protected void navigateToParentScreen() {
     MinecraftClient.getInstance().setScreen(this.parent);
+  }
+
+  protected void drawToast(MinecraftClient client, Text toastTitle, Text toastDescription) {
+    client.getToastManager().add(SystemToast.create(
+       client, SystemToast.Type.TUTORIAL_HINT, toastTitle, toastDescription));
   }
 }

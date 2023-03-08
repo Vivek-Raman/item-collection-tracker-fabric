@@ -47,7 +47,7 @@ public class ChecklistSelectionScreen extends AbstractScreen {
           return true;
         }, Position.of((this.width - BUTTON_WIDTH) / 2, 40), BUTTON_WIDTH,
         Math.min((BUTTON_HEIGHT + BUTTON_MARGIN) * (this.checklists.size() + 1),
-        this.height - Math.max(BUTTON_HEIGHT + BUTTON_MARGIN, 60)))); // TODO: Fix this
+        this.height - Math.max(BUTTON_HEIGHT + BUTTON_MARGIN, 60)))); // TODO: Fix this overflow
     } else {
       this.addDrawableChild(new SpruceLabelWidget(Position.of((this.width - BUTTON_WIDTH) / 2, 40),
         new TranslatableText("one27001.tracker.screen.checklist-selection.no-lists-found"), BUTTON_WIDTH));
@@ -55,7 +55,8 @@ public class ChecklistSelectionScreen extends AbstractScreen {
 
     this.addDrawableChild(new SpruceButtonWidget(
         Position.of((this.width - BUTTON_WIDTH) / 2, this.height - (VERTICAL_MARGIN + BUTTON_HEIGHT) * 2),
-        BUTTON_WIDTH, BUTTON_HEIGHT, new TranslatableText("one27001.tracker.screen.checklist-selection.create-checklist"),
+        BUTTON_WIDTH, BUTTON_HEIGHT,
+        new TranslatableText("one27001.tracker.screen.checklist-selection.create-checklist"),
         button -> MinecraftClient.getInstance().setScreen(new ChecklistCreationScreen(this))));
     this.addDrawableChild(this.backButton);
   }

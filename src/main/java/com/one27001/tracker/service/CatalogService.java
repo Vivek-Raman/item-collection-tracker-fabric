@@ -2,14 +2,18 @@ package com.one27001.tracker.service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Map.Entry;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.one27001.tracker.model.CatalogItem;
 import com.one27001.util.Registerable;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.RegistryKey;
@@ -29,7 +33,8 @@ public class CatalogService implements Registerable {
       Identifier identifier = entry.getKey().getValue();
       items.add(CatalogItem.builder()
           .itemID(identifier.toString())
-          .itemGroup(entry.getValue().getGroup().getName())
+          .itemGroup(Optional.ofNullable(entry.getValue().getGroup()).map(ItemGroup::getName)
+              .orElse(StringUtils.EMPTY))
           .stackQuantity(Long.valueOf(entry.getValue().getMaxCount()))
           .build());
     });
