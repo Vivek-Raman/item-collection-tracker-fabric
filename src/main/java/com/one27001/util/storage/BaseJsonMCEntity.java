@@ -1,7 +1,7 @@
 package com.one27001.util.storage;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.ToString;
@@ -11,8 +11,8 @@ import lombok.ToString;
 public abstract class BaseJsonMCEntity implements Serializable {
   private String id;
   private long version = 0;
-  private LocalDateTime created;
-  private LocalDateTime lastUpdated;
+  private Date created;
+  private Date lastUpdated;
 
   public long incrementVersion() {
     return ++this.version;
