@@ -33,6 +33,8 @@ public class ConfigService implements Registerable {
       log.warn("Config not found; persisting new config {}", defaultConfig);
       instance = this.persistenceService.saveGlobalConfig(defaultConfig);
     }
+
+    log.info("Loaded config: {}", instance);
   }
 
   public GlobalConfig get() {

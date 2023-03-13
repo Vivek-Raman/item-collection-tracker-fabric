@@ -7,6 +7,10 @@ import com.one27001.tracker.model.GlobalConfig;
 import com.one27001.util.Registerable;
 
 public interface PersistenceService extends Registerable {
+  default void init() throws Exception {
+    Registerable.super.init();
+  }
+
   GlobalConfig fetchGlobalConfig();
 
   GlobalConfig saveGlobalConfig(GlobalConfig toPersist);

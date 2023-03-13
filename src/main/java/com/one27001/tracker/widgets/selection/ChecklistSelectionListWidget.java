@@ -50,7 +50,7 @@ public class ChecklistSelectionListWidget extends SpruceEntryListWidget<Checklis
       super();
       this.checklistID = checklistID;
       this.onSelected = onSelected;
-      this.widget = new SpruceButtonWidget(Position.of(this, 0, 4),
+      this.widget = new SpruceButtonWidget(Position.of(this, 0, BUTTON_MARGIN),
         BUTTON_WIDTH, BUTTON_HEIGHT, new LiteralText(this.checklistID), button -> {});
     }
 

@@ -21,7 +21,6 @@ public class ChecklistSelectionScreen extends AbstractScreen {
   private static final Logger log = MyLogger.get();
   private static final int BUTTON_MARGIN = 4;
 
-  //     private ChecklistService checklistService;
   private ChecklistSelectionService checklistSelectionService;
 
   // State
@@ -32,6 +31,12 @@ public class ChecklistSelectionScreen extends AbstractScreen {
 
     // this.checklistService = ClassRegistry.supply(ChecklistService.class);
     this.checklistSelectionService = ClassRegistry.supply(ChecklistSelectionService.class);
+    this.reinitialize();
+  }
+
+  @Override
+  protected void reinitialize() {
+    super.reinitialize();
     this.checklists = checklistSelectionService.listChecklists();
   }
 

@@ -1,6 +1,6 @@
 package com.one27001.tracker.service;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -27,7 +27,7 @@ public class CatalogService implements Registerable {
    * @return set of all registered item IDs.
    */
   public List<CatalogItem> generateCatalog() {
-    List<CatalogItem> items = new LinkedList<>();
+    List<CatalogItem> items = new ArrayList<>();
     Set<Entry<RegistryKey<Item>, Item>> entries = itemRegistry.getEntrySet();
     entries.forEach(entry -> {
       Identifier identifier = entry.getKey().getValue();

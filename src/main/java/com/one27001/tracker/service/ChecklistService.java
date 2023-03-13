@@ -1,5 +1,6 @@
 package com.one27001.tracker.service;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class ChecklistService implements Registerable {
     List<CatalogItem> catalog = catalogService.generateCatalog();
 
     Map<String, TrackingInfo> stats = new LinkedHashMap<>();
+    Collections.sort(catalog);
     catalog.forEach(catalogItem -> {
       long targetQuantity = catalogItem.getStackQuantity() + 1;
       catalogItem.setStackQuantity(null);

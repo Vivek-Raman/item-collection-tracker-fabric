@@ -12,7 +12,6 @@ import dev.lambdaurora.spruceui.Position;
 import dev.lambdaurora.spruceui.widget.SpruceButtonWidget;
 import dev.lambdaurora.spruceui.widget.text.SpruceTextFieldWidget;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
@@ -24,7 +23,7 @@ public class ChecklistCreationScreen extends AbstractScreen {
   private SpruceTextFieldWidget textInputWidget;
   private SpruceButtonWidget submitButtonWidget;
 
-  public ChecklistCreationScreen(Screen parent) {
+  public ChecklistCreationScreen(AbstractScreen parent) {
     super(parent, new TranslatableText("one27001.tracker.screen.checklist-creation.title"));
     this.checklistService = ClassRegistry.supply(ChecklistService.class);
   }
@@ -49,7 +48,7 @@ public class ChecklistCreationScreen extends AbstractScreen {
   private void tryCreateChecklist() {
     String checklistID = this.textInputWidget.getText().trim();
     if (StringUtils.isBlank(checklistID)) {
-      log.error("Failed to create checklist: checklistID \"{}\" is blank.", checklistID);
+      log.warn("Failed to create checklist: checklistID \"{}\" is blank.", checklistID);
       this.drawToast(MinecraftClient.getInstance(),
         new TranslatableText("one27001.tracker.screen.checklist-creation.validation.failure.toast.title"),
         new TranslatableText("one27001.tracker.screen.checklist-creation.validation.failure.checklist-id-blank.toast.description"));

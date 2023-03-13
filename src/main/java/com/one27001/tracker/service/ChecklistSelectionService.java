@@ -24,6 +24,9 @@ public class ChecklistSelectionService implements Registerable {
 
   public String getActiveChecklistID() {
     return this.configService.get().getActiveChecklistID();
+  }
 
+  public boolean isValidChecklist(String checklistID) {
+    return this.persistenceService.findChecklistByID(checklistID) != null;
   }
 }

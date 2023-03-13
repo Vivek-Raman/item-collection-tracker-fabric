@@ -41,10 +41,10 @@ public class ItemCollectionTracker implements ClientModInitializer {
     ClassRegistry.init(log);
     ClassRegistry.register(new JsonLocalPersistence(), PersistenceService.class);
     ClassRegistry.register(new ConfigService(
-      ClassRegistry.supply(PersistenceService.class)));
+        ClassRegistry.supply(PersistenceService.class)));
     ClassRegistry.register(new CatalogService(Registry.ITEM));
     ClassRegistry.register(new ChecklistSelectionService(
-      ClassRegistry.supply(ConfigService.class),
+        ClassRegistry.supply(ConfigService.class),
         ClassRegistry.supply(PersistenceService.class)));
     ClassRegistry.register(new ChecklistService(
         ClassRegistry.supply(CatalogService.class),

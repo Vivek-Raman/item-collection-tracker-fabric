@@ -53,11 +53,11 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
   include modImplementation("dev.lambdaurora:spruceui:${project.spruceui_version}")
 
-  compileOnly 'org.projectlombok:lombok:1.18.26'
-	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+  compileOnly "org.projectlombok:lombok:${project.lombok_version}"
+	annotationProcessor "org.projectlombok:lombok:${project.lombok_version}"
 
-	testCompileOnly 'org.projectlombok:lombok:1.18.26'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+	testCompileOnly "org.projectlombok:lombok:${project.lombok_version}"
+	testAnnotationProcessor "org.projectlombok:lombok:${project.lombok_version}"
 }
 
 processResources {

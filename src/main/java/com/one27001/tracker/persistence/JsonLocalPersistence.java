@@ -27,6 +27,8 @@ public class JsonLocalPersistence implements PersistenceService {
 
   @Override
   public void init() throws Exception {
+    PersistenceService.super.init();
+
     this.jsonMCTemplate = new JsonMCTemplate(JsonMCConfigurer.builder()
       .basePath(FabricLoader.getInstance().getGameDir().resolve("item-collection-tracker").toString())
       .logger(log)
@@ -104,8 +106,13 @@ public class JsonLocalPersistence implements PersistenceService {
 
   @Override
   public Checklist findChecklistByID(String checklistID) {
-    // TODO Auto-generated method stub
-    return null;
+    try {
+    ChecklistEntity entity = this.jsonMCTemplate.findByID(checklistID, ChecklistEntity.class);
+    return Optional.ofNullable(entity).map(ChecklistEntity::getChecklist).orElse(null);
+    } catch (Exception e) {
+      log.error("Failed to findChecklistByID with id: {}", checklistID, e);
+      return null;
+    }
   }
 
   @Override
