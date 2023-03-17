@@ -6,17 +6,24 @@ import dev.lambdaurora.spruceui.widget.container.SpruceContainerWidget;
 import net.minecraft.text.LiteralText;
 
 public class ChecklistDetailHeader extends SpruceContainerWidget {
-  private static final int BUTTON_WIDTH = 200;
-  private static final int BUTTON_HEIGHT = 20;
-  private static final int VERTICAL_MARGIN = 16;
-
   public ChecklistDetailHeader(Position position, int width, int height) {
     super(position, width, height);
+    TableConstants.Size sizeOf = new TableConstants.Size(width);
+    TableConstants.Position positionOf = new TableConstants.Position(sizeOf);
 
-    this.addChild(new SpruceLabelWidget(Position.of(position, 0, 0),
-      new LiteralText("asd"), BUTTON_WIDTH));
+    this.addChild(new SpruceLabelWidget(Position.of(position, positionOf.icon(), 0),
+      new LiteralText("ICON"), sizeOf.icon()));
 
-    this.addChild(new SpruceLabelWidget(Position.of(position, 50, 0),
-      new LiteralText("asd2"), BUTTON_WIDTH));
+    this.addChild(new SpruceLabelWidget(Position.of(position, positionOf.name(), 0),
+      new LiteralText("NAME"), sizeOf.name()));
+
+    this.addChild(new SpruceLabelWidget(Position.of(position, positionOf.targetQuantity(), 0),
+      new LiteralText("TARGET"), sizeOf.targetQuantity()));
+
+    this.addChild(new SpruceLabelWidget(Position.of(position, positionOf.currentQuantity(), 0),
+      new LiteralText("CURRENT"), sizeOf.currentQuantity()));
+
+    this.addChild(new SpruceLabelWidget(Position.of(position, positionOf.star(), 0),
+      new LiteralText("STAR"), sizeOf.star()));
   }
 }
