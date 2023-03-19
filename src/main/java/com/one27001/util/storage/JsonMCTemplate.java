@@ -13,9 +13,10 @@ import org.apache.commons.lang3.StringUtils;
 // TODO: https://mkyong.com/java/gson-streaming-to-read-and-write-json/
 public class JsonMCTemplate extends JsonMCHelper {
   private Path basePath;
+  private Path configPath;
 
-  public JsonMCTemplate(String path) throws Exception {
-    this(JsonMCConfigurer.builder().basePath(path).build());
+  public JsonMCTemplate(String path, String configPath) throws Exception {
+    this(JsonMCConfigurer.builder().basePath(path).configPath(configPath).build());
   }
 
   public JsonMCTemplate(JsonMCConfigurer configurer) throws Exception {
@@ -23,9 +24,20 @@ public class JsonMCTemplate extends JsonMCHelper {
 
     Path basePath = Path.of(configurer.getBasePath());
     this.validateBasePath(basePath);
+    Path configPath = Path.of(configurer.getConfigPath());
+    this.validateConfigPath(configPath);
     this.basePath = basePath;
+    this.configPath = configPath;
 
     this.gson = configurer.getGson();
+  }
+
+  public JsonMCTemplate getConfigTemplate() throws Exception {
+    return new JsonMCTemplate(JsonMCConfigurer.builder()
+      .basePath(this.configPath.toString())
+      .configPath(this.configPath.toString())
+      .gson(this.gson).logger(this.log)
+      .build());
   }
 
   public <T extends BaseJsonMCEntity> T save(T toSave, Class<T> clazz) throws Exception {

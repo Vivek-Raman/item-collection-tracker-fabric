@@ -15,6 +15,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class JsonMCConfigurer {
   @Builder.Default private String basePath = null;
+  @Builder.Default private String configPath = null;
   @Builder.Default private Logger logger = LogManager.getLogger("[JsonMCTemplate]");
   @Builder.Default private Gson gson = new Gson();
 }

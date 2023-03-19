@@ -93,6 +93,14 @@ public class JsonMCHelper {
     }
   }
 
+  protected void validateConfigPath(Path configPath) throws Exception {
+    this.validateBasePath(configPath);
+    if (!configPath.toString().contains("config")) {
+      this.invalidate(String.format("Path %s is not a valid config path! Try FabricLoader.getInstance().getConfigDir().resolve(<modid>).toString()",
+        configPath.toString()));
+    }
+  }
+
   protected void validateID(String id) {
     if (StringUtils.isBlank(id)) {
       this.invalidate(String.format("Parameter id: \"{}\" cannot be blank", id));

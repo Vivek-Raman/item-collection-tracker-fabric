@@ -23,7 +23,6 @@ public class JsonLocalPersistence implements PersistenceService {
   private static boolean DISALLOW_UPSERT_ON_SAVE = false;
 
   private JsonMCTemplate jsonMCTemplate;
-  private JsonMCTemplate configJsonMCTemplate;
 
   @Override
   public void init() throws Exception {
@@ -31,14 +30,7 @@ public class JsonLocalPersistence implements PersistenceService {
 
     this.jsonMCTemplate = new JsonMCTemplate(JsonMCConfigurer.builder()
       .basePath(FabricLoader.getInstance().getGameDir().resolve("item-collection-tracker").toString())
-      .logger(log)
-      .gson(new GsonBuilder()
-        .setPrettyPrinting()
-        .create())
-      .build());
-
-    this.configJsonMCTemplate = new JsonMCTemplate(JsonMCConfigurer.builder()
-      .basePath(FabricLoader.getInstance().getConfigDir().resolve("item-collection-tracker").toString())
+      .configPath(FabricLoader.getInstance().getConfigDir().resolve("item-collection-tracker").toString())
       .logger(log)
       .gson(new GsonBuilder()
         .setPrettyPrinting()
@@ -50,7 +42,7 @@ public class JsonLocalPersistence implements PersistenceService {
   public GlobalConfig fetchGlobalConfig() {
     String id = GlobalConfigEntity.DEFAULT_PROFILE_ID;
     try {
-      GlobalConfigEntity entity = this.configJsonMCTemplate.findByID(id, GlobalConfigEntity.class);
+      GlobalConfigEntity entity = this.jsonMCTemplate.getConfigTemplate().findByID(id, GlobalConfigEntity.class);
       return Optional.ofNullable(entity).map(GlobalConfigEntity::getConfig).orElse(null);
     } catch (Exception e) {
       log.error("Failed to fetch GlobalConfigEntity with id: {}", id, e);
@@ -62,14 +54,14 @@ public class JsonLocalPersistence implements PersistenceService {
   public GlobalConfig saveGlobalConfig(GlobalConfig toPersist) {
     String id = GlobalConfigEntity.DEFAULT_PROFILE_ID;
     try {
-      GlobalConfigEntity entity = this.configJsonMCTemplate.findByID(id, GlobalConfigEntity.class);
+      GlobalConfigEntity entity = this.jsonMCTemplate.getConfigTemplate().findByID(id, GlobalConfigEntity.class);
       if (Objects.isNull(entity)) {
         entity = GlobalConfigEntity.builder()
           .id(id)
           .build();
       }
       entity.setConfig(toPersist);
-      return this.configJsonMCTemplate.save(entity, GlobalConfigEntity.class).getConfig();
+      return this.jsonMCTemplate.getConfigTemplate().save(entity, GlobalConfigEntity.class).getConfig();
     } catch (Exception e) {
       log.error("Failed to saveGlobalConfig with id: {}", id, e);
       return null;
