@@ -17,12 +17,8 @@ public class TableConstants {
       return icon() + sizeOf.icon();
     }
 
-    public int category() {
-      return name() + sizeOf.name();
-    }
-
     public int targetQuantity() {
-      return category() + sizeOf.category();
+      return name() + sizeOf.name();
     }
 
     public int currentQuantity() {
@@ -39,18 +35,13 @@ public class TableConstants {
     private final int contentWidth;
 
     private static final int SIZE_X_ICON = 32;
-    public int icon() {
+    public static int icon() {
       return SIZE_X_ICON;
     }
 
     public int name() {
-      return contentWidth - icon() - category() -
+      return contentWidth - icon() -
         targetQuantity() - currentQuantity() - star();
-    }
-
-    private static final int SIZE_X_CATEGORY = 120;
-    public int category() {
-      return SIZE_X_CATEGORY;
     }
 
     private static final int SIZE_X_QUANTITY = 40;

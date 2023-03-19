@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TrackingInfo implements Serializable {
   private CatalogItem itemInfo;
+  private boolean star;
   private Long targetQuantity;
   private Long collectedQuantity;
 }

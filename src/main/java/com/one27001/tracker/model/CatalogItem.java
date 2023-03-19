@@ -15,9 +15,9 @@ public class CatalogItem implements Serializable, Comparable<CatalogItem> {
   private String itemID;
   private String itemGroup;
   private Long stackQuantity;
+
   @Override
   public int compareTo(CatalogItem other) {
     return this.getItemID().compareTo(((CatalogItem) other).getItemID());
   }
-
 }

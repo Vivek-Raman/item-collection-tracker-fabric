@@ -85,12 +85,4 @@ public class ChecklistService implements Registerable {
     log.info("Set target quantity to {} for item {} in checklist {}!",
         targetQuantity, itemID, checklistID);
   }
-
-  /**
-   * Locks the checklist. Disallows editing of the target quantity.
-   */
-  public void lockChecklist(String checklistID) {
-    // TODO: implement
-    log.info("Locked checklist {}!", checklistID);
-  }
 }
