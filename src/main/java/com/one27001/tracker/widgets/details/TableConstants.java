@@ -44,7 +44,7 @@ public class TableConstants {
         targetQuantity() - currentQuantity() - star();
     }
 
-    private static final int SIZE_X_QUANTITY = 40;
+    private static final int SIZE_X_QUANTITY = 50;
     public int targetQuantity() {
       return SIZE_X_QUANTITY;
     }

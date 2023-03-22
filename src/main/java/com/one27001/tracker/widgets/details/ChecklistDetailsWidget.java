@@ -68,14 +68,18 @@ public class ChecklistDetailsWidget extends SpruceEntryListWidget<ChecklistDetai
       }
 
       // TODO: convert to text input
-      this.currentQuantity = new SpruceLabelWidget(Position.of(position, positionOf.currentQuantity(), 0),
-        new LiteralText(this.getInfo().getCollectedQuantity().toString()), sizeOf.currentQuantity());
+      SpruceTextFieldWidget currentQuantity = new SpruceTextFieldWidget(Position.of(position, positionOf.currentQuantity(), 0),
+        sizeOf.currentQuantity(), BUTTON_HEIGHT, new LiteralText(this.getInfo().getCollectedQuantity().toString()));
+      currentQuantity.setTextPredicate(SpruceTextFieldWidget.INTEGER_INPUT_PREDICATE);
+      currentQuantity.setText(info.getCollectedQuantity().toString());
+      this.currentQuantity = currentQuantity;
 
-      this.star = new SpruceIconButtonWidget(Position.of(position, positionOf.star(), 0),
-        sizeOf.star(), sizeOf.star(), new LiteralText(Boolean.toString(this.getInfo().isStar())),
+      SpruceIconButtonWidget star = new SpruceIconButtonWidget(Position.of(position, positionOf.star(), 0),
+        sizeOf.star(), BUTTON_HEIGHT, new LiteralText(Boolean.toString(this.getInfo().isStar())),
         (button) -> {
           this.getActionHandler().onStarButtonPressed(itemID);
         });
+      this.star = star;
     }
 
     private void renderIcon(MatrixStack matrices, int mouseX, int mouseY, float delta) {
